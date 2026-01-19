@@ -50,7 +50,7 @@ const StreakCard = ({ streak, iconTheme = ICON_THEMES.UNICODE }) => {
                 <ThemedIcon
                     iconKey={streak.habitIcon}
                     theme={iconTheme}
-                    size={20}
+                    size={28}
                 />
                 <Text style={styles.title}>{streak.habitName}</Text>
             </View>
@@ -82,7 +82,8 @@ const StreakCard = ({ streak, iconTheme = ICON_THEMES.UNICODE }) => {
                 </TouchableOpacity>
 
                 <TouchableOpacity style={styles.viewBtn}>
-                    <Text style={styles.viewBtnText}>👁 View</Text>
+                    <Text style={styles.viewBtnIcon}>👁</Text>
+                    <Text style={styles.viewBtnText}>View</Text>
                 </TouchableOpacity>
             </View>
         </View>
@@ -167,6 +168,14 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.2,
         shadowRadius: 6,
         elevation: 3,
+        flexDirection: 'row',  // ADD THIS
+        alignItems: 'center',   // ADD THIS
+        justifyContent: 'center', // ADD THIS
+        gap: 6,                 // ADD THIS
+    },
+    viewBtnIcon: {          // ADD THIS WHOLE STYLE
+        fontSize: 18,
+        color: COLORS.white,
     },
     viewBtnText: {
         color: COLORS.white,

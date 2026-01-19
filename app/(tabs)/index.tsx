@@ -1,98 +1,109 @@
-import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
-
-import { HelloWave } from '@/components/hello-wave';
-import ParallaxScrollView from '@/components/parallax-scroll-view';
+import { ScrollView, StyleSheet, View } from 'react-native';
+import StreakCard from '@/src/components/StreakCard';
 import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { Link } from 'expo-router';
+import { ICON_THEMES } from '@/src/config/iconThemes';
 
-export default function HomeScreen() {
+const SAMPLE_HABITS = [
+  {
+    id: '1',
+    habitName: 'Quit Smoking',
+    habitIcon: 'noSmoking',
+    currentStreak: 12,
+    bestStreak: 28,
+    status: 'pending',
+  },
+  {
+    id: '2',
+    habitName: 'Less Social Media',
+    habitIcon: 'phone',
+    currentStreak: 5,
+    bestStreak: 22,
+    status: 'completed',
+  },
+  {
+    id: '3',
+    habitName: 'No Junk Food',
+    habitIcon: 'food',
+    currentStreak: 0,
+    bestStreak: 45,
+    status: 'broken',
+  },
+];
+
+export default function StreaksScreen() {
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12',
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <Link href="/modal">
-          <Link.Trigger>
-            <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-          </Link.Trigger>
-          <Link.Preview />
-          <Link.Menu>
-            <Link.MenuAction title="Action" icon="cube" onPress={() => alert('Action pressed')} />
-            <Link.MenuAction
-              title="Share"
-              icon="square.and.arrow.up"
-              onPress={() => alert('Share pressed')}
-            />
-            <Link.Menu title="More" icon="ellipsis">
-              <Link.MenuAction
-                title="Delete"
-                icon="trash"
-                destructive
-                onPress={() => alert('Delete pressed')}
+      <View style={styles.container}>
+        <View style={styles.header}>
+          <View style={styles.headerTitleContainer}>
+            <ThemedText style={styles.headerIcon}>📋</ThemedText>
+            <ThemedText style={[styles.headerTitle, { color: '#a8e6cf' }]}>HABIT </ThemedText>
+            <ThemedText style={[styles.headerTitle, { color: '#ffd3b6' }]}>STREAKS</ThemedText>
+          </View>
+          <ThemedText style={styles.settingsIcon}>⚙️</ThemedText>
+        </View>
+        <ScrollView style={styles.scrollView} contentContainerStyle={styles.content}>
+          {SAMPLE_HABITS.map((habit) => (
+              <StreakCard
+                  key={habit.id}
+                  streak={habit}
+                  iconTheme={ICON_THEMES.UNICODE}
               />
-            </Link.Menu>
-          </Link.Menu>
-        </Link>
-
-        <ThemedText>
-          {`Tap the Explore tab to learn more about what's included in this starter app.`}
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          {`When you're ready, run `}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
+          ))}
+        </ScrollView>
+      </View>
   );
 }
 
 const styles = StyleSheet.create({
-  titleContainer: {
+  container: {
+    flex: 1,
+    backgroundColor: '#f5f7fa',
+  },
+  header: {
+    backgroundColor: '#667eea',
+    padding: 20,
+    paddingTop: 60,
+    paddingBottom: 20,
+    shadowColor: '#667eea',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 20,
+    elevation: 8,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  headerTitleContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 8,
   },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
+  headerIcon: {
+    fontSize: 32,
+    marginRight: 12,
+    textShadowColor: 'rgba(0, 0, 0, 0.3)',
+    textShadowOffset: { width: 0, height: 2 },
+    textShadowRadius: 4,
   },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
+  headerTitle: {
+    fontSize: 26,
+    fontWeight: '900',  // Changed from '800' to '900' - maximum boldness
+    textTransform: 'uppercase',
+    letterSpacing: 1.5,  // Changed from 1 to 1.5 - more spacing
+    textShadowColor: 'rgba(0, 0, 0, 0.3)',
+    textShadowOffset: { width: 0, height: 2 },
+    textShadowRadius: 4,
+  },
+  settingsIcon: {
+    fontSize: 24,  // Changed from 20 to 24
+    opacity: 0.9,
+    textShadowColor: 'rgba(0, 0, 0, 0.3)',
+    textShadowOffset: { width: 0, height: 2 },
+    textShadowRadius: 4,
+  },
+  scrollView: {
+    flex: 1,
+  },
+  content: {
+    padding: 20,
   },
 });
