@@ -64,22 +64,18 @@ const StreakCard = ({ streak, iconTheme = ICON_THEMES.UNICODE, onView }) => {
 
             {/* Action Buttons */}
             <View style={styles.actions}>
-                <TouchableOpacity style={styles.successBtn}>
-                    <ThemedIcon
-                        iconKey="thumbsUp"
-                        theme={iconTheme}
-                        size={20}
-                        color="#fff"
-                    />
+                <TouchableOpacity
+                    style={[styles.successBtn, streak.status === 'completed' && styles.disabledBtn]}
+                    disabled={streak.status === 'completed'}
+                >
+                    <ThemedIcon iconKey="thumbsUp" theme={iconTheme} size={20} color="#fff" />
                 </TouchableOpacity>
 
-                <TouchableOpacity style={styles.failureBtn}>
-                    <ThemedIcon
-                        iconKey="thumbsDown"
-                        theme={iconTheme}
-                        size={20}
-                        color="#fff"
-                    />
+                <TouchableOpacity
+                    style={[styles.failureBtn, streak.status === 'completed' && styles.disabledBtn]}
+                    disabled={streak.status === 'completed'}
+                >
+                    <ThemedIcon iconKey="thumbsDown" theme={iconTheme} size={20} color="#fff" />
                 </TouchableOpacity>
 
                 <TouchableOpacity style={styles.viewBtn} onPress={onView}>
@@ -183,6 +179,9 @@ const styles = StyleSheet.create({
         fontSize: 13,
         fontWeight: '600',
         textAlign: 'center',
+    },
+    disabledBtn: {
+        opacity: 0.50,
     },
 });
 

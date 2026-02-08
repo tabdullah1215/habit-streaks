@@ -2,7 +2,7 @@ import { useLocalSearchParams, useRouter } from 'expo-router';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import ThemedIcon from '@/src/components/ThemedIcon';
 import { ICON_THEMES } from '@/src/config/iconThemes';
-import { SAMPLE_HABITS } from '@/src/data/habits';
+import { SAMPLE_HABITS } from '../../src/data/habits';
 
 const STATS_CONFIG = [
     { icon: 'trophy', key: 'bestStreak', label: 'Longest Streak', format: (v: number) => `${v}` },
@@ -57,13 +57,13 @@ export default function HabitDetailScreen() {
 
                 {/* ── Action Buttons ── */}
                 <View style={styles.actionRow}>
-                    <TouchableOpacity activeOpacity={0.85}>
-                        <View style={[styles.actionBtn, styles.successBtn]}>
+                    <TouchableOpacity activeOpacity={0.85} disabled={habit.status === 'completed'}>
+                        <View style={[styles.actionBtn, styles.successBtn, habit.status === 'completed' && styles.disabledBtn]}>
                             <Text style={styles.actionEmoji}>👍</Text>
                         </View>
                     </TouchableOpacity>
-                    <TouchableOpacity activeOpacity={0.85}>
-                        <View style={[styles.actionBtn, styles.failureBtn]}>
+                    <TouchableOpacity activeOpacity={0.85} disabled={habit.status === 'completed'}>
+                        <View style={[styles.actionBtn, styles.failureBtn, habit.status === 'completed' && styles.disabledBtn]}>
                             <Text style={styles.actionEmoji}>👎</Text>
                         </View>
                     </TouchableOpacity>
@@ -282,5 +282,8 @@ const styles = StyleSheet.create({
         color: '#7f8c8d',
         marginTop: 2,
         textAlign: 'center',
+    },
+    disabledBtn: {
+        opacity: 0.35,
     },
 });
