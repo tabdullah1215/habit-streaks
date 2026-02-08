@@ -4,7 +4,8 @@ import ThemedIcon from './ThemedIcon';
 import { COLORS } from '../constants/colors';
 import { ICON_THEMES } from '../config/iconThemes';
 
-const StreakCard = ({ streak, iconTheme = ICON_THEMES.UNICODE }) => {
+// Add onView to props
+const StreakCard = ({ streak, iconTheme = ICON_THEMES.UNICODE, onView }) => {
     const getBorderColor = () => {
         if (streak.status === 'pending') return COLORS.pending;
         if (streak.status === 'completed') return COLORS.success;
@@ -81,7 +82,7 @@ const StreakCard = ({ streak, iconTheme = ICON_THEMES.UNICODE }) => {
                     />
                 </TouchableOpacity>
 
-                <TouchableOpacity style={styles.viewBtn}>
+                <TouchableOpacity style={styles.viewBtn} onPress={onView}>
                     <Text style={styles.viewBtnIcon}>👁</Text>
                     <Text style={styles.viewBtnText}>View</Text>
                 </TouchableOpacity>

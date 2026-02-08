@@ -1,36 +1,14 @@
-import { ScrollView, StyleSheet, View } from 'react-native';
+import { ScrollView, StyleSheet, View, Platform } from 'react-native';
+import { useRouter } from 'expo-router';
 import StreakCard from '@/src/components/StreakCard';
 import { ThemedText } from '@/components/themed-text';
 import { ICON_THEMES } from '@/src/config/iconThemes';
+import { SAMPLE_HABITS } from '../../src/data/habits';
 
-const SAMPLE_HABITS = [
-  {
-    id: '1',
-    habitName: 'Quit Smoking',
-    habitIcon: 'noSmoking',
-    currentStreak: 12,
-    bestStreak: 28,
-    status: 'pending',
-  },
-  {
-    id: '2',
-    habitName: 'Less Social Media',
-    habitIcon: 'phone',
-    currentStreak: 5,
-    bestStreak: 22,
-    status: 'completed',
-  },
-  {
-    id: '3',
-    habitName: 'No Junk Food',
-    habitIcon: 'food',
-    currentStreak: 0,
-    bestStreak: 45,
-    status: 'broken',
-  },
-];
 
 export default function StreaksScreen() {
+  const router = useRouter();
+
   return (
       <View style={styles.container}>
         <View style={styles.header}>
@@ -47,6 +25,7 @@ export default function StreaksScreen() {
                   key={habit.id}
                   streak={habit}
                   iconTheme={ICON_THEMES.UNICODE}
+                  onView={() => router.push(`/habit/${habit.id}`)}
               />
           ))}
         </ScrollView>
@@ -78,23 +57,28 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   headerIcon: {
-    fontSize: 32,
+    fontSize: 28,
     marginRight: 12,
     textShadowColor: 'rgba(0, 0, 0, 0.3)',
     textShadowOffset: { width: 0, height: 2 },
     textShadowRadius: 4,
   },
   headerTitle: {
-    fontSize: 26,
+    fontSize: 32,
     fontWeight: '900',  // Changed from '800' to '900' - maximum boldness
     textTransform: 'uppercase',
-    letterSpacing: 1.5,  // Changed from 1 to 1.5 - more spacing
+    letterSpacing: 1,  // Changed from 1 to 1.5 - more spacing
     textShadowColor: 'rgba(0, 0, 0, 0.3)',
     textShadowOffset: { width: 0, height: 2 },
     textShadowRadius: 4,
+    fontFamily: Platform.select({
+      ios: 'System',       // iOS system font at 900 is VERY chunky
+      android: 'sans-serif-black',  // Android's heaviest weight
+      default: 'System',
+    }),
   },
   settingsIcon: {
-    fontSize: 24,  // Changed from 20 to 24
+    fontSize: 20,
     opacity: 0.9,
     textShadowColor: 'rgba(0, 0, 0, 0.3)',
     textShadowOffset: { width: 0, height: 2 },
